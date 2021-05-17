@@ -5,6 +5,7 @@ import '../styles.css';
 
 const menuContainer = document.querySelector('.js-menu');
 const themeSwitch = document.querySelector('.theme-switch__toggle');
+const body = document.querySelector('body');
 const cardsMarkup = createMenuCardsMarkup(menu);
 
 const Theme = {
@@ -19,17 +20,19 @@ themeSwitch.addEventListener('click', onThemeSwitchClick);
 function createMenuCardsMarkup(menu) {
     return menuCardsTpl(menu);
 }
+themeSwitch.addEventListener('change', onThemeSwitchClick);
 
 function onThemeSwitchClick(e) {
-    const isThemeSwatchEl = e.target.classList.contains('theme-switch__toggle');
-    if (!isThemeSwatchEl) {
-        return;
+    const isThemeSwatchEl = e.target.checked;
+    if (isThemeSwatchEl == true) {
+        body.classList.add(Theme.LIGHT);
+        body.classList.remove(Theme.DARK);
     }
 
-    // const swatchEl = e.target;
-    // const parentTheme = swatchEl.closest('.body');
-    // parentTheme.classList.add('dark-theme');
-    // document.body.style.background = swatchEl
+    if (isThemeSwatchEl == false) {
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light-theme');
+    }
 
     console.log(e.target);
 }
