@@ -13,9 +13,12 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-menuContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+const STORAGE_KEY = 'current-theme';
 
+menuContainer.insertAdjacentHTML('beforeend', cardsMarkup);
 themeSwitch.addEventListener('click', onThemeSwitchClick);
+
+onReload();
 
 function createMenuCardsMarkup(menu) {
     return menuCardsTpl(menu);
@@ -23,16 +26,26 @@ function createMenuCardsMarkup(menu) {
 themeSwitch.addEventListener('change', onThemeSwitchClick);
 
 function onThemeSwitchClick(e) {
+    const currenTheme = e.currentTarget.value;
     const isThemeSwatchEl = e.target.checked;
     if (isThemeSwatchEl == true) {
-        body.classList.add(Theme.LIGHT);
-        body.classList.remove(Theme.DARK);
+        body.classList.add(Theme.DARK);
+        body.classList.remove(Theme.LIGHT);
     }
 
     if (isThemeSwatchEl == false) {
-        document.body.classList.add('dark-theme');
-        document.body.classList.remove('light-theme');
+        document.body.classList.add(Theme.LIGHT);
+        document.body.classList.remove(Theme.DARK);
     }
 
     console.log(e.target);
+    localStorage.setItem(STORAGE_KEY, currenTheme);
+}
+
+function onReload() {
+    const savedTheme = localStorage.getItem(STORAGE_KEY);
+
+    if (savedTheme) {
+        themeSwitch.value = savedTheme;
+    }
 }
