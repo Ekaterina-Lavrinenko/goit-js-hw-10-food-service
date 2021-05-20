@@ -34,8 +34,8 @@ function onThemeSwitchClick(e) {
     }
 
     if (isThemeSwatchEl == false) {
-        document.body.classList.add(Theme.LIGHT);
-        document.body.classList.remove(Theme.DARK);
+        body.classList.add(Theme.LIGHT);
+        body.classList.remove(Theme.DARK);
     }
 
     console.log(e.target);
@@ -44,8 +44,19 @@ function onThemeSwitchClick(e) {
 
 function onReload() {
     const savedTheme = localStorage.getItem(STORAGE_KEY);
+    themeSwitch.value = savedTheme;
 
     if (savedTheme) {
-        themeSwitch.value = savedTheme;
+        themeSwitch.checked = true;
+         body.classList.add(Theme.DARK);
+         body.classList.remove(Theme.LIGHT);
     }
+
+    // if (savedTheme) {
+
+    //     themeSwitch.checked = false;
+    //      body.classList.add(Theme.LIGHT);
+    //      body.classList.remove(Theme.DARK);
+    // }
+    console.log(savedTheme);
 }
