@@ -1,4 +1,3 @@
-import menuCardTpl from '../templates/menu-card.hbs';
 import menuCardsTpl from '../templates/menu-cards.hbs';
 import menu from './menu.json';
 import '../styles.css';
@@ -13,12 +12,10 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-const STORAGE_KEY = 'current-theme';
-
 menuContainer.insertAdjacentHTML('beforeend', cardsMarkup);
 themeSwitch.addEventListener('click', onThemeSwitchClick);
 
-onReload();
+savedTheme();
 
 function createMenuCardsMarkup(menu) {
     return menuCardsTpl(menu);
@@ -26,7 +23,6 @@ function createMenuCardsMarkup(menu) {
 themeSwitch.addEventListener('change', onThemeSwitchClick);
 
 function onThemeSwitchClick(e) {
-    const currenTheme = e.currentTarget.value;
     const isThemeSwatchEl = e.target.checked;
     if (isThemeSwatchEl == true) {
         body.classList.add(Theme.DARK);
@@ -39,24 +35,21 @@ function onThemeSwitchClick(e) {
     }
 
     console.log(e.target);
-    localStorage.setItem(STORAGE_KEY, currenTheme);
+    localStorage.setItem('theme', isThemeSwatchEl);
 }
 
-function onReload() {
-    const savedTheme = localStorage.getItem(STORAGE_KEY);
-    themeSwitch.value = savedTheme;
+function savedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    console.log(savedTheme);
 
-    if (savedTheme) {
+    if (savedTheme == 'true') {
+        body.classList.add(Theme.DARK);
+        body.classList.remove(Theme.LIGHT);
+    
         themeSwitch.checked = true;
-         body.classList.add(Theme.DARK);
-         body.classList.remove(Theme.LIGHT);
+        } else {
+            body.classList.add(Theme.LIGHT);
+            body.classList.remove(Theme.DARK);
+        }
     }
 
-    // if (savedTheme) {
-
-    //     themeSwitch.checked = false;
-    //      body.classList.add(Theme.LIGHT);
-    //      body.classList.remove(Theme.DARK);
-    // }
-    console.log(savedTheme);
-}
